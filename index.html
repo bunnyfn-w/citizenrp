@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Roleplay - Hamarosan</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #07080a;
+            --card-bg: rgba(18, 22, 32, 0.85); /* Enyhén áttetszőbb kártyák a jobb olvashatóságért a világosabb háttér miatt */
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-red: #e52e2e;
+            --accent-orange: #D5662F; /* Témaszín */
+            --accent-orange-hover: #b85423;
+            --discord-color: #5865F2;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            
+            /* LOGÓK ÉS KÉPEK MÉRETEI */
+            --nav-logo-height: 40px;      /* Fejléc logó magassága */
+            --hero-logo-width: 220px;     /* Fő középső logó szélessége */
+            --hero-logo-height: auto;     /* Fő középső logó magassága */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Háttér kép sötétítés nélkül */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('1.png') center/cover no-repeat;
+            z-index: -2;
+        }
+
+        /* Fejléc / Navigáció */
+        header {
+            width: 100%;
+            background: rgba(7, 8, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* FEJLÉC LOGÓ KÉP STÍLUSA */
+        .nav-logo-img {
+            height: var(--nav-logo-height);
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Discord gomb */
+        .nav-links a.btn-discord {
+            background: rgba(88, 101, 242, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(88, 101, 242, 0.4);
+        }
+
+        .nav-links a.btn-discord:hover {
+            background: var(--discord-color);
+            color: white;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.4);
+        }
+
+        /* Letöltés gomb */
+        .nav-links a.btn-download {
+            background: rgba(229, 46, 46, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(229, 46, 46, 0.4);
+        }
+
+        .nav-links a.btn-download:hover {
+            background: var(--primary-red);
+            color: white;
+            box-shadow: 0 0 15px rgba(229, 46, 46, 0.4);
+        }
+
+        /* Fő tartalom */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        /* Hero szekció */
+        .hero {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-logo-wrapper {
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        /* FŐ KÖZÉPSŐ LOGÓ KÉP STÍLUSA */
+        .hero-logo-img {
+            width: var(--hero-logo-width);
+            height: var(--hero-logo-height);
+            max-width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 25px rgba(213, 102, 47, 0.35));
+        }
+
+        .hero h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .coming-soon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(213, 102, 47, 0.12);
+            border: 1px solid rgba(213, 102, 47, 0.4);
+            color: var(--accent-orange);
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-orange);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Client Download Section */
+        .client-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 900px) {
+            .client-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        /* KÉP TÁROLÓ */
+        .client-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* KERET NÉLKÜLI KÉP STÍLUSA */
+        .edited-client-image {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .client-info h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 900px) {
+             .client-info h2 { text-align: center; }
+        }
+
+        .client-subtitle {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .client-desc {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .steps-list {
+            list-style: none;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .steps-list li {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .steps-list li i {
+            color: var(--accent-orange);
+        }
+
+        @media (max-width: 900px) {
+             .steps-list li { justify-content: center; }
+        }
+
+        .client-action {
+            text-align: center;
+        }
+
+        .client-action p {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .btn-orange-download {
+            background: var(--accent-orange);
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-orange-download:hover {
+            background: var(--accent-orange-hover);
+            box-shadow: 0 0 20px rgba(213, 102, 47, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Requirements Grid */
+        .req-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .req-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .req-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .req-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .req-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .req-list li {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .req-list li strong {
+            color: var(--text-main);
+        }
+
+        /* Popup Notification Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-box {
+            background: #121620;
+            border: 1px solid var(--accent-orange);
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(213, 102, 47, 0.3);
+        }
+
+        .modal-box i {
+            font-size: 3rem;
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        .modal-box h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-box p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-modal-close {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-modal-close:hover {
+            background: var(--accent-orange-hover);
+        }
+
+        /* Lábléc */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--card-border);
+            background: rgba(7, 8, 10, 0.9);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <!-- FEJLÉC -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="brand-logo">
+                <img src="logo2.png" id="nav-logo" class="nav-logo-img" alt="CitizenRP Logo">
+                CitizenRP
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://idkproject-seven.vercel.app/" target="_blank"><i class="fa-regular fa-newspaper"></i> Hírek</a></li>
+                <li><a onclick="showNotice('Fejlesztés alatt', 'A közösségi funkciók és a fórum jelenleg fejlesztés alatt állnak!')"><i class="fa-solid fa-users"></i> Közösség</a></li>
+                <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"><i class="fa-solid fa-circle-question"></i> Tutorial</a></li>
+                <li><a href="https://ko-fi.com/citizenrp" target="_blank"><i class="fa-solid fa-hand-holding-heart"></i> Támogatás</a></li>
+                <li><a href="https://discord.gg" target="_blank" class="btn-discord"><i class="fa-brands fa-discord"></i> Discord</a></li>
+                <li><a onclick="showNotice('Hamarosan!', 'A letöltés és a launcher jelenleg fejlesztés alatt áll, hamarosan elérhető lesz!')" class="btn-download"><i class="fa-solid fa-download"></i> CitizenRP Letöltése</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- FŐ TARTALOM -->
+    <main>
+        <!-- HERO RÉSZ -->
+        <section class="hero">
+            <div class="hero-logo-wrapper">
+                <img src="logo2.png" id="hero-logo" class="hero-logo-img" alt="Citizen Roleplay Main Logo">
+            </div>
+            <h1>Üdvözlünk a Citizen Roleplay oldalán!</h1>
+            <div class="coming-soon-badge">
+                <span class="status-dot"></span> HAMAROSAN / FEJLESZTÉS ALATT
+            </div>
+        </section>
+
+        <!-- KLIENS LETÖLTÉS SZEKCIÓ -->
+        <section class="client-section">
+            
+            <div class="client-image-container">
+                <img src="monitorlau1.png" alt="CitizenRP Kliens Bemutató" class="edited-client-image">
+            </div>
+
+            <div class="client-info">
+                <h2>CitizenRP kliens</h2>
+                <p class="client-subtitle">Légy részese Magyarország legújabb RolePlay közösségének!</p>
+                <p class="client-desc">Vágj bele a második életedbe, itt minden lehetséges!</p>
+
+                <ol class="steps-list">
+                    <li><i class="fa-solid fa-1"></i> Grand Theft Auto: San Andreas telepítése</li>
+                    <li><i class="fa-solid fa-2"></i> CitizenRP launcher letöltése</li>
+                    <li><i class="fa-solid fa-3"></i> CitizenRP launcher indítása, kliens telepítése</li>
+                    <li><i class="fa-solid fa-4"></i> Csatlakozz a szerverre</li>
+                </ol>
+
+                <div class="client-action">
+                    <p>Kellemes időtöltést kívánunk!</p>
+                    <button onclick="showNotice('Hamarosan!', 'A letöltés és a launcher jelenleg fejlesztés alatt áll, hamarosan elérhető lesz!')" class="btn-orange-download">
+                        <i class="fa-solid fa-download"></i> CitizenRP launcher letöltése
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- RENDSZERKÖVETELMÉNYEK -->
+        <section class="req-grid">
+            <div class="req-card">
+                <h3>Minimum rendszerkövetelmény</h3>
+                <ul class="req-list">
+                    <li><strong>Operációs rendszer:</strong> Windows 10</li>
+                    <li><strong>CPU:</strong> Intel Core 2 Quad Q6600 / AMD Phenom 9850</li>
+                    <li><strong>RAM:</strong> 6GB</li>
+                    <li><strong>Videókártya:</strong> NVIDIA 9800 GT 1GB / AMD HD 4870 1GB</li>
+                    <li><strong>Felbontás:</strong> legalább 1600x900</li>
+                    <li><strong>Tárhely:</strong> 10GB</li>
+                </ul>
+            </div>
+
+            <div class="req-card">
+                <h3>Ajánlott rendszerkövetelmény</h3>
+                <ul class="req-list">
+                    <li><strong>Operációs rendszer:</strong> Windows 10/11</li>
+                    <li><strong>CPU:</strong> Intel Core i5 3470 / AMD X8 FX-8350</li>
+                    <li><strong>RAM:</strong> 12GB</li>
+                    <li><strong>Videókártya:</strong> NVIDIA GTX 660 2GB / AMD HD 7870 2GB</li>
+                    <li><strong>Felbontás:</strong> legalább 1920x1080</li>
+                    <li><strong>Tárhely:</strong> 15GB (SSD)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- FIGYELMEZTETŐ MODAL -->
+    <div id="noticeModal" class="modal-overlay">
+        <div class="modal-box">
+            <i class="fa-solid fa-clock"></i>
+            <h3 id="modalTitle">Hamarosan!</h3>
+            <p id="modalMessage">A funkció jelenleg fejlesztés alatt áll!</p>
+            <button onclick="closeNotice()" class="btn-modal-close">Rendben</button>
+        </div>
+    </div>
+
+    <!-- LÁBLÉC -->
+    <footer>
+        <p>&copy; 2026 Citizen Roleplay. Minden jog fenntartva.</p>
+    </footer>
+
+    <script>
+        function showNotice(title, message) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('noticeModal').style.display = 'flex';
+        }
+
+        function closeNotice() {
+            document.getElementById('noticeModal').style.display = 'none';
+        }
+        
+        window.onclick = function(event) {
+            let modal = document.getElementById('noticeModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
